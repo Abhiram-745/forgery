@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
+import { AuthProvider } from "@/lib/auth"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Forge AI - Intelligent Coding Platform",
-  description: "AI-powered vibecoding platform with intelligent model orchestration",
+  title: "Forge AI — Intelligent Coding Platform",
+  description: "AI-powered coding companion with smart model orchestration. Free, fast, streaming responses powered by OpenRouter.",
 }
 
 export default function RootLayout({
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )
