@@ -157,7 +157,24 @@ const CAPABILITY_KEYWORDS: Record<ModelCapability, string[]> = {
   ],
 }
 
+function containsImageContent(input: string): boolean {
+  const imagePatterns = [
+    /data:image\//i,
+    /\.(png|jpg|jpeg|gif|webp|svg|bmp|ico|webp)\s/i,
+    /https?:\/\/.*\.(png|jpg|jpeg|gif|webp|svg|bmp|ico|webp)/i,
+    /image\.png|image\.jpg|image\.jpeg|image\.gif|image\.webp/i,
+    /\[image:/i,
+    /!\[.*\]\(.*\.(png|jpg|jpeg|gif|webp|svg)/i,
+  ]
+  return imagePatterns.some(p => p.test(input))
+}
+
 function detectCapability(input: string): ModelCapability {
+  // First check if message contains image content
+  if (containsImageContent(input)) {
+    return "multimodal"
+  }
+
   const lowerInput = input.toLowerCase()
   const scores: Record<ModelCapability, number> = {
     coding: 0,
@@ -208,4 +225,4 @@ export function routeRequest(
   }
 }
 
-export { detectCapability }
+export { detectCapability, containsImageContent }

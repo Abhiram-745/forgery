@@ -1,5 +1,5 @@
 export { orchestrate, orchestrateStream } from "./orchestrator"
-export { routeRequest, detectCapability } from "./router"
+export { routeRequest, detectCapability, containsImageContent } from "./router"
 export { withRetry } from "./retry"
 export {
   recordSuccess,

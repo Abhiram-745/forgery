@@ -4,10 +4,30 @@ import type {
   ChatMessage,
 } from "@/types/orchestration"
 import { getProvider } from "@/ai/providers"
-import { routeRequest } from "./router"
+import { routeRequest, containsImageContent } from "./router"
 import { withRetry } from "./retry"
 import { recordSuccess, recordFailure } from "./health"
 import { getCachedResponse, setCachedResponse } from "@/ai/cache/response"
+
+function ensureMultimodalModel(
+  model: any,
+  fallbackChain: any[],
+  hasImage: boolean
+): any {
+  if (!hasImage) return model
+
+  if (model.capabilities.includes("multimodal")) {
+    return model
+  }
+
+  for (const fallback of fallbackChain) {
+    if (fallback.capabilities.includes("multimodal")) {
+      return fallback
+    }
+  }
+
+  return model
+}
 
 async function estimateCost(
   modelId: string,
@@ -31,9 +51,14 @@ export async function orchestrate(
   const provider = getProvider()
 
   const fullInput = request.messages.map((m) => m.content).join(" ")
+  const hasImageContent = containsImageContent(fullInput)
   const routing = routeRequest(fullInput, request.capability)
 
-  let currentModel = routing.selectedModel
+  let currentModel = ensureMultimodalModel(
+    routing.selectedModel,
+    routing.fallbackChain,
+    hasImageContent
+  )
   let fallbackIndex = 0
   let retries = 0
   let lastError: Error | null = null
@@ -111,9 +136,14 @@ export async function orchestrateStream(
   const provider = getProvider()
 
   const fullInput = request.messages.map((m) => m.content).join(" ")
+  const hasImageContent = containsImageContent(fullInput)
   const routing = routeRequest(fullInput, request.capability)
 
-  let currentModel = routing.selectedModel
+  let currentModel = ensureMultimodalModel(
+    routing.selectedModel,
+    routing.fallbackChain,
+    hasImageContent
+  )
   let fallbackIndex = 0
   let retries = 0
   let fullContent = ""
