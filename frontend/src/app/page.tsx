@@ -23,7 +23,7 @@ export default function LandingPage() {
   }, [])
 
   const ctaHref = mounted && !isLoading && isAuthenticated ? "/chat" : "/login"
-  const ctaLabel = mounted && !isLoading && isAuthenticated ? "Open Chat" : "Get Started"
+  const ctaLabel = mounted && !isLoading && isAuthenticated ? "Open Builder" : "Get Started"
 
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden">
@@ -69,18 +69,19 @@ export default function LandingPage() {
       <section className="relative z-10 flex flex-col items-center text-center px-6 pt-16 sm:pt-24 pb-16">
         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground mb-6 animate-fade-in">
           <Sparkles className="h-3 w-3" />
-          Powered by OpenRouter · 10+ free models
+          Powered by OpenRouter free models
         </div>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-gradient max-w-4xl leading-[1.05] animate-slide-up">
-          The intelligent
+          Describe an app.
           <br />
-          coding companion
+          Get a running app.
         </h1>
 
         <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed animate-slide-up [animation-delay:100ms]">
-          Forge AI auto-routes your prompts to the best free model for the task &mdash; coding,
-          reasoning, debugging, and more. Streaming responses, smart fallbacks, zero cost.
+          Forge AI turns plain English into working web apps, live in your browser.
+          Chat to build, chat to change &mdash; with a staged pipeline that plans, writes,
+          validates, and auto-repairs the code. Free models, zero cost.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 animate-slide-up [animation-delay:200ms]">
@@ -103,10 +104,10 @@ export default function LandingPage() {
             </span>
           </div>
           <div className="text-xs text-muted-foreground space-y-1.5 font-mono">
-            <div className="flex justify-between"><span>Model Registry</span><span className="text-foreground/80">Active</span></div>
+            <div className="flex justify-between"><span>Primary Model</span><span className="text-foreground/80">laguna-xs-2.1</span></div>
             <div className="flex justify-between"><span>Provider</span><span className="text-foreground/80">OpenRouter</span></div>
-            <div className="flex justify-between"><span>Streaming</span><span className="text-foreground/80">Enabled</span></div>
-            <div className="flex justify-between"><span>Orchestration</span><span className="text-foreground/80">Ready</span></div>
+            <div className="flex justify-between"><span>Pipeline</span><span className="text-foreground/80">Plan · Build · Repair</span></div>
+            <div className="flex justify-between"><span>Live Preview</span><span className="text-foreground/80">In-browser</span></div>
           </div>
         </div>
       </section>
@@ -126,28 +127,28 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <FeatureCard
               icon={<Brain className="h-5 w-5" />}
-              title="Smart Model Routing"
-              description="Automatically picks the optimal free model based on your request type — coding, reasoning, debugging, or creative."
+              title="Staged Pipeline"
+              description="Every build runs through plan → generate → validate → auto-repair, so free models produce code that actually runs."
             />
             <FeatureCard
               icon={<Zap className="h-5 w-5" />}
-              title="Real-time Streaming"
-              description="Responses stream token-by-token through a low-latency SSE pipeline. No waiting for full generations."
+              title="Live Preview"
+              description="Your app runs instantly in a sandboxed in-browser bundler. Watch it update as Forge writes each file."
             />
             <FeatureCard
               icon={<Shield className="h-5 w-5" />}
               title="Automatic Fallbacks"
-              description="Built-in health checks and retry logic. If a model fails, requests instantly route to the next best option."
+              description="If a model is busy or fails, the request instantly fails over through a chain of the best free coding models."
             />
             <FeatureCard
               icon={<Code2 className="h-5 w-5" />}
-              title="Coding First"
-              description="Optimized for DeepSeek, Qwen Coder, and Llama families — the strongest open free models for software work."
+              title="Edits, Not Rewrites"
+              description="Follow-up messages change only the files they need to. Saying 'no' or asking a question never regenerates your app."
             />
             <FeatureCard
               icon={<Layers className="h-5 w-5" />}
-              title="Context Aware"
-              description="Multi-turn conversations with persistent context, token estimation, and intelligent prompt management."
+              title="Real Projects"
+              description="Full React project structure with components and npm dependencies — download the ZIP and keep building anywhere."
             />
             <FeatureCard
               icon={<GitBranch className="h-5 w-5" />}
@@ -173,16 +174,13 @@ export default function LandingPage() {
           <div className="forge-panel p-6 sm:p-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs sm:text-sm">
               {[
-                "deepseek/deepseek-chat:free",
-                "deepseek/deepseek-r1:free",
-                "qwen/qwen-2.5-coder-32b-instruct:free",
-                "qwen/qwen-2.5-72b-instruct:free",
-                "google/gemini-2.0-flash-exp:free",
-                "google/gemini-flash-1.5-8b:free",
-                "meta-llama/llama-3.3-70b-instruct:free",
-                "meta-llama/llama-3.1-8b-instruct:free",
-                "mistralai/mistral-7b-instruct:free",
-                "qwen/qwen-2-vl-72b-instruct:free",
+                "poolside/laguna-xs-2.1:free",
+                "qwen/qwen3-coder:free",
+                "deepseek/deepseek-chat-v3-0324:free",
+                "moonshotai/kimi-k2:free",
+                "z-ai/glm-4.5-air:free",
+                "deepseek/deepseek-r1-0528:free",
+                "mistralai/mistral-small-3.2-24b-instruct:free",
               ].map((m) => (
                 <div
                   key={m}
